@@ -20,17 +20,17 @@ public class ItemService {
     private final ItemDtoMapper itemDtoMapper;
     private final UserStorage userStorage;
 
-    public ItemDto getItem(Integer id){
+    public ItemDto getItem(Integer id) {
         return itemDtoMapper.itemToDto(itemStorage.getItem(id));
     }
 
-    public List<ItemDto> getAll(Integer ownerId){
+    public List<ItemDto> getAll(Integer ownerId) {
         return itemStorage.getAllUserItem(ownerId).stream()
                 .map(itemDtoMapper::itemToDto)
                 .collect(Collectors.toList());
     }
 
-    public ItemDto addItem(ItemDto itemDto, Integer ownerId){
+    public ItemDto addItem(ItemDto itemDto, Integer ownerId) {
         userStorage.getUser(ownerId);
         Item item = itemDtoMapper.dtoToItem(itemDto);
         item.setOwnerId(ownerId);
@@ -39,27 +39,27 @@ public class ItemService {
         );
     }
 
-    public ItemDto updateItem(ItemDto itemDto, Integer ownerId, Integer itemId){
+    public ItemDto updateItem(ItemDto itemDto, Integer ownerId, Integer itemId) {
         Item item = itemStorage.getItem(itemId);
-        if (!item.getOwnerId().equals(ownerId)){
+        if (!item.getOwnerId().equals(ownerId)) {
             throw new NotFoundException("");
         }
-        if (itemDto.getName() != null){
+        if (itemDto.getName() != null) {
             item.setName(itemDto.getName());
         }
 
-        if (itemDto.getDescription() != null){
+        if (itemDto.getDescription() != null) {
             item.setDescription(itemDto.getDescription());
         }
 
-        if (itemDto.getAvailable() != null){
+        if (itemDto.getAvailable() != null) {
             item.setAvailable(itemDto.getAvailable());
         }
         return itemDtoMapper.itemToDto(itemStorage.updateItem(item));
     }
 
-    public List<ItemDto> searchItem(String text){
-        if (text.isBlank()){
+    public List<ItemDto> searchItem(String text) {
+        if (text.isBlank()) {
             return new ArrayList<>();
         }
         return itemStorage.searchItem(text.toLowerCase()).stream()
