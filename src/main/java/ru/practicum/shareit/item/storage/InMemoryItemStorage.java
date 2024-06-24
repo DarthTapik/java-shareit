@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Repository
 public class InMemoryItemStorage implements ItemStorage {
     private Integer idCounter = 1;
-    Map<Integer, Item> items = new HashMap<>();
+    private final Map<Integer, Item> items = new HashMap<>();
 
     @Override
     public Item getItem(Integer itemId) {

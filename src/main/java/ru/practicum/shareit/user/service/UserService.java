@@ -29,7 +29,7 @@ public class UserService {
     }
 
     public UserDto addUser(UserDto dto) {
-        if (!uniqueEmail(dto.getEmail()).equals(-1)) {
+        if (!isUniqueEmail(dto.getEmail())) {
             throw new ValueNotUniqueException("Данный email уже зарегестрирован");
         }
         return userMapper.userToDto(
@@ -43,7 +43,7 @@ public class UserService {
             updateUser.setName(dto.getName());
         }
         if (dto.getEmail() != null) {
-            if (!uniqueEmail(dto.getEmail()).equals(dto.getId()) && !uniqueEmail(dto.getEmail()).equals(-1)) {
+            if (!isUniqueEmail(dto.getEmail()) && !dto.getEmail().equals(updateUser.getEmail())) {
                 throw new ValueNotUniqueException("Данный email уже зарегестрирован");
             }
             updateUser.setEmail(dto.getEmail());
@@ -57,14 +57,11 @@ public class UserService {
         return userMapper.userToDto(userStorage.deleteUser(id));
     }
 
-    private Integer uniqueEmail(String email) {
+    private boolean isUniqueEmail(String email) {
 
         Optional<User> userOptional = userStorage.getAll().stream()
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst();
-        if (userOptional.isEmpty()) {
-            return -1;
-        }
-        return userOptional.get().getId();
+        return userOptional.isEmpty();
     }
 }
