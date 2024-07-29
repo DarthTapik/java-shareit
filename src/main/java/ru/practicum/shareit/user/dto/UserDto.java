@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class UserDto {
-    private Integer id;
+    private Long id;
     private String name;
     @Email(message = "Неверный формат email")
     @NotBlank(message = "email не может быть пустым")

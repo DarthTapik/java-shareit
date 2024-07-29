@@ -7,6 +7,7 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemDtoMapper;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.storage.ItemStorage;
+import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.storage.UserStorage;
 
 import java.util.ArrayList;
@@ -20,28 +21,28 @@ public class ItemService {
     private final ItemDtoMapper itemDtoMapper;
     private final UserStorage userStorage;
 
-    public ItemDto getItem(Integer id) {
+    public ItemDto getItem(Long id) {
         return itemDtoMapper.itemToDto(itemStorage.getItem(id));
     }
 
-    public List<ItemDto> getAll(Integer ownerId) {
+    public List<ItemDto> getAll(Long ownerId) {
         return itemStorage.getAllUserItem(ownerId).stream()
                 .map(itemDtoMapper::itemToDto)
                 .collect(Collectors.toList());
     }
 
-    public ItemDto addItem(ItemDto itemDto, Integer ownerId) {
-        userStorage.getUser(ownerId);
+    public ItemDto addItem(ItemDto itemDto, Long ownerId) {
+        User user = userStorage.getUser(ownerId);
         Item item = itemDtoMapper.dtoToItem(itemDto);
-        item.setOwnerId(ownerId);
+        item.setOwner(user);
         return itemDtoMapper.itemToDto(
                 itemStorage.createItem(item)
         );
     }
 
-    public ItemDto updateItem(ItemDto itemDto, Integer ownerId, Integer itemId) {
+    public ItemDto updateItem(ItemDto itemDto, Long ownerId, Long itemId) {
         Item item = itemStorage.getItem(itemId);
-        if (!item.getOwnerId().equals(ownerId)) {
+        if (!item.getOwner().getId().equals(ownerId)) {
             throw new NotFoundException("");
         }
         if (itemDto.getName() != null) {
@@ -59,7 +60,7 @@ public class ItemService {
     }
 
     public List<ItemDto> searchItem(String text) {
-        if (text.isBlank()) {
+        if (text.isBlank() || text.isEmpty()) {
             return new ArrayList<>();
         }
         return itemStorage.searchItem(text.toLowerCase()).stream()
