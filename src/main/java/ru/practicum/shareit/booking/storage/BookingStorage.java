@@ -19,4 +19,6 @@ public interface BookingStorage {
 
     Booking getNextItemBooking(Long itemId);
 
+    List<Booking> getBookingsByItem(Long itemId);
+
 }

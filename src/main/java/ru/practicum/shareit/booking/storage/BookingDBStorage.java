@@ -49,7 +49,7 @@ public class BookingDBStorage implements BookingStorage {
         return bookingRepository.findByOwnerId(ownerId);
     }
 
-    private List<Booking> getBookingsByItem(Long itemId) {
+    public List<Booking> getBookingsByItem(Long itemId) {
         return bookingRepository.findByItemId(itemId);
     }
 
