@@ -60,16 +60,16 @@ public class BookingService {
     public List<BookingDto> getUserBookings(Long userId, String state) {
 
         userStorage.getUser(userId);
-        Stream<BookingDto> bookings = bookingStorage.getBookingsByBooker(userId).stream().
-                map(mapper::bookingToDto);
+        Stream<BookingDto> bookings = bookingStorage.getBookingsByBooker(userId).stream()
+                .map(mapper::bookingToDto);
         return filterByState(bookings, state);
     }
 
     public List<BookingDto> getBookingsByOwner(Long userId, String state) {
 
         userStorage.getUser(userId);
-        Stream<BookingDto> bookings = bookingStorage.getBookingsByItemOwner(userId).stream().
-                map(mapper::bookingToDto);
+        Stream<BookingDto> bookings = bookingStorage.getBookingsByItemOwner(userId).stream()
+                        .map(mapper::bookingToDto);
         return filterByState(bookings, state);
     }
 
