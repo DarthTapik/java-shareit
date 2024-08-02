@@ -3,6 +3,7 @@ package ru.practicum.shareit.item.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.error.exception.NotFoundException;
+import ru.practicum.shareit.item.dto.ItemBookingDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemDtoMapper;
 import ru.practicum.shareit.item.model.Item;
@@ -21,13 +22,13 @@ public class ItemService {
     private final ItemDtoMapper itemDtoMapper;
     private final UserStorage userStorage;
 
-    public ItemDto getItem(Long id) {
-        return itemDtoMapper.itemToDto(itemStorage.getItem(id));
+    public ItemBookingDto getItem(Long id) {
+        return itemDtoMapper.itemToBookingDto(itemStorage.getItem(id));
     }
 
-    public List<ItemDto> getAll(Long ownerId) {
+    public List<ItemBookingDto> getAll(Long ownerId) {
         return itemStorage.getAllUserItem(ownerId).stream()
-                .map(itemDtoMapper::itemToDto)
+                .map(itemDtoMapper::itemToBookingDto)
                 .collect(Collectors.toList());
     }
 
