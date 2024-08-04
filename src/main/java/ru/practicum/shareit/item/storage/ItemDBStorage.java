@@ -37,7 +37,6 @@ public class ItemDBStorage implements ItemStorage {
 
     @Override
     public List<Item> searchItem(String text) {
-        String qText = "%" + text + "%";
-        return itemRepository.search(qText);
+        return itemRepository.search(text);
     }
 }

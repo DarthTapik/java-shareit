@@ -4,13 +4,10 @@ import jakarta.validation.Valid;
 import ru.practicum.shareit.error.exception.NotFoundException;
 import ru.practicum.shareit.user.model.User;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class UserInMemoryStorage implements UserStorage {
-    private final HashMap<Long, User> users = new HashMap<>();
+    private final Map<Long, User> users = new HashMap<>();
     private Long idCounter = 1L;
 
     @Override

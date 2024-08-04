@@ -20,7 +20,7 @@ public class Item {
     @Column(name = "description")
     private String description;
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private User owner;
     @NotNull
