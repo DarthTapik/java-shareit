@@ -1,6 +1,5 @@
 package ru.practicum.shareit.item.storage;
 
-import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.error.exception.NotFoundException;
 import ru.practicum.shareit.item.model.Item;
 
@@ -9,13 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Repository
+
 public class InMemoryItemStorage implements ItemStorage {
-    private Integer idCounter = 1;
-    private final Map<Integer, Item> items = new HashMap<>();
+    private Long idCounter = 1L;
+    private final Map<Long, Item> items = new HashMap<>();
 
     @Override
-    public Item getItem(Integer itemId) {
+    public Item getItem(Long itemId) {
         Item item = items.get(itemId);
         if (item == null) {
             throw new NotFoundException("Предмет с id " + itemId + "не найден");
@@ -37,9 +36,9 @@ public class InMemoryItemStorage implements ItemStorage {
     }
 
     @Override
-    public List<Item> getAllUserItem(Integer ownerId) {
+    public List<Item> getAllUserItem(Long ownerId) {
         return items.values().stream()
-                .filter(item -> item.getOwnerId().equals(ownerId))
+                .filter(item -> item.getOwner().getId().equals(ownerId))
                 .collect(Collectors.toList());
     }
 

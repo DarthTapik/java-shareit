@@ -18,7 +18,7 @@ public class UserService {
     private final UserDtoMapper userMapper;
     private final UserStorage userStorage;
 
-    public UserDto getUser(Integer id) {
+    public UserDto getUser(Long id) {
         return userMapper.userToDto(userStorage.getUser(id));
     }
 
@@ -53,7 +53,7 @@ public class UserService {
         );
     }
 
-    public UserDto deleteUser(Integer id) {
+    public UserDto deleteUser(Long id) {
         return userMapper.userToDto(userStorage.deleteUser(id));
     }
 

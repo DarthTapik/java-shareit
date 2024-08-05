@@ -1,22 +1,17 @@
 package ru.practicum.shareit.user.storage;
 
 import jakarta.validation.Valid;
-import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.error.exception.NotFoundException;
 import ru.practicum.shareit.user.model.User;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-@Repository
 public class UserInMemoryStorage implements UserStorage {
-    private final HashMap<Integer, User> users = new HashMap<>();
-    private int idCounter = 1;
+    private final Map<Long, User> users = new HashMap<>();
+    private Long idCounter = 1L;
 
     @Override
-    public User getUser(Integer id) {
+    public User getUser(Long id) {
         return Optional.ofNullable(users.get(id)).orElseThrow(
                 () -> new NotFoundException("Пользователь с id " + id + "не найден")
         );
@@ -40,7 +35,7 @@ public class UserInMemoryStorage implements UserStorage {
     }
 
     @Override
-    public User deleteUser(Integer id) {
+    public User deleteUser(Long id) {
         User deletedUser = users.remove(id);
         if (deletedUser == null) {
             throw new NotFoundException("Пользователь с id " + id + "не найден");
