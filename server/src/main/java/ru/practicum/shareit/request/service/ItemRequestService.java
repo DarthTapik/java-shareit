@@ -49,8 +49,8 @@ public class ItemRequestService {
         List<ItemRequestDto> itemRequestsDto = itemRequestStorage.getAll(pageable).stream()
                 .map(itemRequestMapper::itemRequestToDto)
                 .toList();
-        itemRequestsDto.
-                forEach(itemRequestDto ->
+        itemRequestsDto
+                .forEach(itemRequestDto ->
                         itemRequestDto.setItems(itemStorage.getAllByRequestId(itemRequestDto.getId()))
                 );
         return itemRequestsDto;
