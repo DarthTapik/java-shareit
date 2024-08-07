@@ -9,11 +9,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
-public class InMemoryItemStorage implements ItemStorage {
+public class InMemoryItemStorage {
     private Long idCounter = 1L;
     private final Map<Long, Item> items = new HashMap<>();
 
-    @Override
     public Item getItem(Long itemId) {
         Item item = items.get(itemId);
         if (item == null) {
@@ -22,27 +21,23 @@ public class InMemoryItemStorage implements ItemStorage {
         return item;
     }
 
-    @Override
     public Item createItem(Item item) {
         item.setId(idCounter++);
         items.put(item.getId(), item);
         return item;
     }
 
-    @Override
     public Item updateItem(Item item) {
         items.put(item.getId(), item);
         return item;
     }
 
-    @Override
     public List<Item> getAllUserItem(Long ownerId) {
         return items.values().stream()
                 .filter(item -> item.getOwner().getId().equals(ownerId))
                 .collect(Collectors.toList());
     }
 
-    @Override
     public List<Item> searchItem(String text) {
         System.out.println(items.values());
         return items.values().stream()
@@ -51,4 +46,5 @@ public class InMemoryItemStorage implements ItemStorage {
                         && item.getAvailable().equals(true))
                 .collect(Collectors.toList());
     }
+
 }

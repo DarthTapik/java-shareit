@@ -39,4 +39,9 @@ public class ItemDBStorage implements ItemStorage {
     public List<Item> searchItem(String text) {
         return itemRepository.search(text);
     }
+
+    public List<Item> getAllByRequestId(Long requestId) {
+        return itemRepository.findByItemRequestId(requestId);
+    }
+
 }

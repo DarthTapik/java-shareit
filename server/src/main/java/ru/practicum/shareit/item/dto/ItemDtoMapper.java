@@ -7,6 +7,7 @@ import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.storage.CommentDBStorage;
 
+
 import java.util.List;
 
 @Component
@@ -21,6 +22,7 @@ public class ItemDtoMapper {
         itemDto.setName(item.getName());
         itemDto.setDescription(item.getDescription());
         itemDto.setAvailable(item.getAvailable());
+        itemDto.setItemRequest(item.getItemRequest());
         return itemDto;
     }
 
@@ -39,6 +41,7 @@ public class ItemDtoMapper {
         itemDto.setName(item.getName());
         itemDto.setDescription(item.getDescription());
         itemDto.setAvailable(item.getAvailable());
+        itemDto.setItemRequest(item.getItemRequest());
         itemDto.setLastBooking(bookingStorage.getLastItemBooking(item.getId()));
         itemDto.setNextBooking(bookingStorage.getNextItemBooking(item.getId()));
         List<CommentDto> comments = commentDBStorage.getAllItemComment(item.getId())

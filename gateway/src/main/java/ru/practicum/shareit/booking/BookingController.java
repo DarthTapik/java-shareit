@@ -16,37 +16,37 @@ import ru.practicum.shareit.booking.dto.BookingDto;
 @Slf4j
 @Validated
 public class BookingController {
-	private final BookingClient bookingClient;
+    private final BookingClient bookingClient;
 
-	@PostMapping
-	public ResponseEntity<Object> addBooking(@RequestBody BookingDto bookingDto, @RequestHeader("X-Sharer-User-Id") Long id) {
-		return bookingClient.createBooking(bookingDto, id);
-	}
+    @PostMapping
+    public ResponseEntity<Object> addBooking(@RequestBody BookingDto bookingDto, @RequestHeader("X-Sharer-User-Id") Long id) {
+        return bookingClient.createBooking(bookingDto, id);
+    }
 
-	@PatchMapping("/{bookingId}")
-	public ResponseEntity<Object> answerBooking(@PathVariable(name = "bookingId") Long bookingId,
-									@RequestParam(name = "approved") Boolean approved,
-									@RequestHeader("X-Sharer-User-Id") Long userId) {
-		return bookingClient.updateBooking(bookingId, approved, userId);
-	}
+    @PatchMapping("/{bookingId}")
+    public ResponseEntity<Object> answerBooking(@PathVariable(name = "bookingId") Long bookingId,
+                                                @RequestParam(name = "approved") Boolean approved,
+                                                @RequestHeader("X-Sharer-User-Id") Long userId) {
+        return bookingClient.updateBooking(bookingId, approved, userId);
+    }
 
-	@GetMapping("/{bookingId}")
-	public ResponseEntity<Object> getBookingById(@PathVariable(name = "bookingId") Long bookingId,
-									 @RequestHeader("X-Sharer-User-Id") Long userId) {
-		return bookingClient.getBooking(bookingId, userId);
-	}
+    @GetMapping("/{bookingId}")
+    public ResponseEntity<Object> getBookingById(@PathVariable(name = "bookingId") Long bookingId,
+                                                 @RequestHeader("X-Sharer-User-Id") Long userId) {
+        return bookingClient.getBooking(bookingId, userId);
+    }
 
-	@GetMapping
-	public ResponseEntity<Object> getUserBookings(@RequestHeader("X-Sharer-User-Id") Long id,
-											@RequestParam(name = "state", required = false,
-													defaultValue = "ALL") String state) {
-		return bookingClient.getUserBookings(id, state);
-	}
+    @GetMapping
+    public ResponseEntity<Object> getUserBookings(@RequestHeader("X-Sharer-User-Id") Long id,
+                                                  @RequestParam(name = "state", required = false,
+                                                          defaultValue = "ALL") String state) {
+        return bookingClient.getUserBookings(id, state);
+    }
 
-	@GetMapping("/owner")
-	public ResponseEntity<Object> getBookingsByOwner(@RequestHeader("X-Sharer-User-Id") Long id,
-											   @RequestParam(name = "state", required = false,
-													   defaultValue = "ALL") String state) {
-		return bookingClient.getBookingsByOwner(id, state);
-	}
+    @GetMapping("/owner")
+    public ResponseEntity<Object> getBookingsByOwner(@RequestHeader("X-Sharer-User-Id") Long id,
+                                                     @RequestParam(name = "state", required = false,
+                                                             defaultValue = "ALL") String state) {
+        return bookingClient.getBookingsByOwner(id, state);
+    }
 }

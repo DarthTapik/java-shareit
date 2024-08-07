@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/items")
@@ -32,7 +30,7 @@ public class ItemController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Object> updateItem(@RequestBody ItemDto itemDto, @RequestHeader("X-Sharer-User-Id") Long ownerId,
-                              @PathVariable("id") Long itemId) {
+                                             @PathVariable("id") Long itemId) {
         return itemClient.updateItem(itemDto, ownerId, itemId);
     }
 
