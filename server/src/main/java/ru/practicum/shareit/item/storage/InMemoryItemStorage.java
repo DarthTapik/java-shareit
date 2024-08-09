@@ -39,7 +39,6 @@ public class InMemoryItemStorage {
     }
 
     public List<Item> searchItem(String text) {
-        System.out.println(items.values());
         return items.values().stream()
                 .filter(item -> (item.getName().toLowerCase().contains(text)
                         || item.getDescription().toLowerCase().contains(text))

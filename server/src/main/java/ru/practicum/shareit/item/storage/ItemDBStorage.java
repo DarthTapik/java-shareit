@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.error.exception.NotFoundException;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.request.model.ItemRequest;
 
 import java.util.List;
 
@@ -42,6 +43,11 @@ public class ItemDBStorage implements ItemStorage {
 
     public List<Item> getAllByRequestId(Long requestId) {
         return itemRepository.findByItemRequestId(requestId);
+    }
+
+    @Override
+    public List<Item> getAllByRequests(List<ItemRequest> itemRequests) {
+        return itemRepository.findByItemRequestIn(itemRequests);
     }
 
 }

@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item.storage;
 
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.request.model.ItemRequest;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface ItemStorage {
     List<Item> searchItem(String text);
 
     List<Item> getAllByRequestId(Long requestId);
+
+    List<Item> getAllByRequests(List<ItemRequest> itemRequests);
 }

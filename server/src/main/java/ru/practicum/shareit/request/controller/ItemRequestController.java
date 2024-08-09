@@ -7,6 +7,8 @@ import ru.practicum.shareit.request.service.ItemRequestService;
 
 import java.util.List;
 
+import static ru.practicum.shareit.constants.HeaderConstants.USER_ID_HEADER;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -17,18 +19,18 @@ public class ItemRequestController {
 
     @PostMapping
     public ItemRequestDto createRequest(@RequestBody ItemRequestDto itemRequestDto,
-                                        @RequestHeader("X-Sharer-User-Id") Long userId) {
+                                        @RequestHeader(USER_ID_HEADER) Long userId) {
         return itemRequestService.createItemRequest(itemRequestDto, userId);
     }
 
     @GetMapping
-    public List<ItemRequestDto> getUsersRequests(@RequestHeader("X-Sharer-User-Id") Long userId) {
+    public List<ItemRequestDto> getUsersRequests(@RequestHeader(USER_ID_HEADER) Long userId) {
         return itemRequestService.getUsersRequests(userId);
     }
 
     @GetMapping("/all")
-    public List<ItemRequestDto> getAllRequests(@RequestParam(required = false, defaultValue = "0") int from,
-                                               @RequestParam(required = false, defaultValue = "10") int size) {
+    public List<ItemRequestDto> getAllRequests(@RequestParam(defaultValue = "0") int from,
+                                               @RequestParam(defaultValue = "10") int size) {
         return itemRequestService.getAllRequests(from, size);
     }
 

@@ -10,6 +10,8 @@ import ru.practicum.shareit.item.service.ItemService;
 
 import java.util.List;
 
+import static ru.practicum.shareit.constants.HeaderConstants.USER_ID_HEADER;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/items")
@@ -22,17 +24,17 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<ItemBookingDto> getAllItem(@RequestHeader("X-Sharer-User-Id") Long id) {
+    public List<ItemBookingDto> getAllItem(@RequestHeader(USER_ID_HEADER) Long id) {
         return itemService.getAll(id);
     }
 
     @PostMapping
-    public ItemDto addItem(@RequestBody ItemDto itemDto, @RequestHeader("X-Sharer-User-Id") Long id) {
+    public ItemDto addItem(@RequestBody ItemDto itemDto, @RequestHeader(USER_ID_HEADER) Long id) {
         return itemService.addItem(itemDto, id);
     }
 
     @PatchMapping("/{id}")
-    public ItemDto updateItem(@RequestBody ItemDto itemDto, @RequestHeader("X-Sharer-User-Id") Long ownerId,
+    public ItemDto updateItem(@RequestBody ItemDto itemDto, @RequestHeader(USER_ID_HEADER) Long ownerId,
                               @PathVariable("id") Long itemId) {
         return itemService.updateItem(itemDto, ownerId, itemId);
     }
@@ -43,7 +45,7 @@ public class ItemController {
     }
 
     @PostMapping("/{id}/comment")
-    public CommentDto addComment(@RequestBody Comment comment, @RequestHeader("X-Sharer-User-Id") Long userId,
+    public CommentDto addComment(@RequestBody Comment comment, @RequestHeader(USER_ID_HEADER) Long userId,
                                  @PathVariable("id") Long itemId) {
         return itemService.addComment(comment, itemId, userId);
     }

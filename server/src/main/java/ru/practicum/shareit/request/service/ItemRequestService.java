@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.storage.ItemStorage;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
@@ -13,7 +14,10 @@ import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.storage.UserStorage;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,28 +36,36 @@ public class ItemRequestService {
     }
 
     public List<ItemRequestDto> getUsersRequests(Long userId) {
-        User requestor = userStorage.getUser(userId);
-        List<ItemRequestDto> itemRequests = itemRequestStorage.getAllUsersRequests(userId).stream()
+        userStorage.getUser(userId);
+        List<ItemRequest> itemRequests = itemRequestStorage.getAllUsersRequests(userId);
+
+        Map<ItemRequest, List<Item>> itemsByRequestId = itemStorage.getAllByRequests(itemRequests).stream()
+                .collect(Collectors.groupingBy(Item::getItemRequest));
+        List<ItemRequestDto> itemRequestDtos = itemRequests.stream()
                 .map(itemRequestMapper::itemRequestToDto)
                 .toList();
-        itemRequests
-                .forEach(
-                        itemRequestDto ->
-                                itemRequestDto.setItems(itemStorage.getAllByRequestId(itemRequestDto.getId()))
-                );
-        return itemRequests;
+
+        itemRequestDtos.forEach(itemRequest ->
+                itemRequest.setItems(itemsByRequestId.getOrDefault(itemRequestMapper.dtoToItemRequest(itemRequest),
+                        Collections.emptyList()))
+        );
+        return itemRequestDtos;
     }
 
     public List<ItemRequestDto> getAllRequests(int from, int size) {
         Pageable pageable = PageRequest.of(from / size, size);
-        List<ItemRequestDto> itemRequestsDto = itemRequestStorage.getAll(pageable).stream()
+        List<ItemRequest> itemRequests = itemRequestStorage.getAll(pageable);
+        Map<ItemRequest, List<Item>> itemsByRequestId = itemStorage.getAllByRequests(itemRequests).stream()
+                .collect(Collectors.groupingBy(Item::getItemRequest));
+        List<ItemRequestDto> itemRequestDtos = itemRequests.stream()
                 .map(itemRequestMapper::itemRequestToDto)
                 .toList();
-        itemRequestsDto
-                .forEach(itemRequestDto ->
-                        itemRequestDto.setItems(itemStorage.getAllByRequestId(itemRequestDto.getId()))
-                );
-        return itemRequestsDto;
+
+        itemRequestDtos.forEach(itemRequest ->
+                itemRequest.setItems(itemsByRequestId.getOrDefault(itemRequestMapper.dtoToItemRequest(itemRequest),
+                        Collections.emptyList()))
+        );
+        return itemRequestDtos;
     }
 
     public ItemRequestDto getItemRequest(Long itemRequestId) {
