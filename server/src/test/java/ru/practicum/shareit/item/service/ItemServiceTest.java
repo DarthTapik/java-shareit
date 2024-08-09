@@ -21,7 +21,7 @@ import java.util.List;
 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:schema.sql")
 @AutoConfigureTestDatabase
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-class ItemServiceTest {
+class ItemServiceTests {
     private final UserService userService;
     private final ItemService itemService;
 
